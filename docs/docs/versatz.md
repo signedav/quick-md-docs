@@ -24,19 +24,25 @@ Nor with any other font (here Deja Vu):
 
 The symbols are slighly above the bottom line.
 
-[QGIS Issue](https://github.com/qgis/QGIS/issues/59732)
+QGIS Issue: https://github.com/qgis/QGIS/issues/59732
 
-## The current situation
+<div class="page-break"></div>
+
+## The problem
 
 The *middlepoint* is everywhere the "source of truth": it's calculated in the font marker layer as the *middle* of the `baseline` and `QFontMetrics::ascent()`, what is basically the highest possible point of a font (like the top of the "aigu" of the À). This summed up to the point's coordinates defines, where to draw top left of the symbol. With the anchor "center" this would work.
 
 But when we want to have the bottom of the symbol on the coordinate of the point, it sums up again the half of the symbol size. And this would work *but* here it doesn't calculate the half of the distance between the `baseline` and the `QFontMetrics::ascent()` but instead it takes the scaled symbolsize - and **these two measurements differed**. What leaded to the wrong placement:
 
-![image](https://gist.github.com/user-attachments/assets/f4fc46ad-ff15-4115-85fa-97d72999ef6c)
+![image](assets-versatz/purpleandcyan.png)
 
-The left is what it is expected to be and the right the one that was the situation. The purple line is one measurement and the cyan one the other. When summing up the half of the first size with the half of the second size then the symbol got misplaced.
+The left is what it is expected to be and the right the one that was the situation. The *ppurple line* is one measurement and the *cyan one the other*. When summing up the half of the first size with the half of the second size to calculate the point where it starts to draw (*orange*)then the symbol got misplaced.
 
-With this fix, the two offsets are always calculated the same, which leads to a correct position of the FontMarkers on Bottom.
+<div class="page-break"></div>
+
+## The sollution
+
+With this fix, the two offsets are always calculated the same way, which leads to a correct position of the FontMarkers on Bottom.
 
 Means before on bottom (example with Font DejaVu Sans and CadastraSymbol):
 
@@ -46,7 +52,19 @@ Now:
 
 ![image](https://gist.github.com/user-attachments/assets/0fcc1902-7e01-4c96-8617-952650468cfb)
 
-[QGIS Pull Request](https://github.com/qgis/QGIS/pull/60044)
+Or the cadastra font:
+
+![image](assets-versatz/cadastra.png)
+
+***This fix will be available on QGIS 3.42.1***
+
+QGIS Pull Request: https://github.com/qgis/QGIS/pull/60044
+
+!!! Note
+    To ensure backward compatibility a new setting had to be introduced "Bottom on Baseline".
+    Otherwise - if we would just have replaced the old (wrong) calculation - older QGIS Project considering an offset would be broken.
+
+<div class="page-break"></div>
 
 ## Other approaches
 
@@ -64,6 +82,6 @@ The cadastre needs the baseline setting. Although the approach with the **bounds
 
 We did some research and tests on this approach and finally opened a draft Pull Request and an issue. Another QGIS core developer already mentioned interrests to implement it.
 
-[QGIS Issue](https://github.com/qgis/QGIS/issues/60836)
+QGIS Issue: https://github.com/qgis/QGIS/issues/60836
 
-[QGIS Pull Request Work in Progress (closed)](https://github.com/qgis/QGIS/pull/60080)
+QGIS Pull Request Work in Progress (closed): https://github.com/qgis/QGIS/pull/60080

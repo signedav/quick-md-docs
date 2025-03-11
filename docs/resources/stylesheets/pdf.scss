@@ -71,3 +71,8 @@ body {
     height: 0;
   }
 }
+
+.page-break { 
+  display: none; 
+  page-break-after: always; 
+} 

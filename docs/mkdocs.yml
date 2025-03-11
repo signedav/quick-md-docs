@@ -35,6 +35,7 @@ theme:
 # Page tree
 nav:
   - Versatzproblem bei CadastraSymbol Fonts in QGIS: versatz.md
+  - Another Test: anothertest.md
 
 markdown_extensions:
   - attr_list
@@ -52,8 +53,8 @@ plugins:
             front: resources/templates/covers/front.html.j2
           aggregator:
             enabled: true
-            output: documentation.pdf
-            covers: front
+            output: all-docs.pdf
+            covers: front 
           browser:
             debug: false
   - macros:
