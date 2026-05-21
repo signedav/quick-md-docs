@@ -34,8 +34,7 @@ theme:
 
 # Page tree
 nav:
-  - Versatzproblem bei CadastraSymbol Fonts in QGIS: versatz.md
-  - Another Test: anothertest.md
+  - QGIS-Server WMS Opaque Gruppen und JSON: haupttask.md
 
 markdown_extensions:
   - attr_list
